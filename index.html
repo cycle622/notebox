@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NoteBox</title>
+        <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAJJJREFUOE/lk0sOgCAMRKdXg1PImrtxCrjamDaiKEYwcWc3TYB5Lf0IeiMAATDyptSHrZEkvPfIOT/6Uoppd4BzjioSEShkxqu+A9x8qTtKKSGEYAl8DziQ97mQwB8zqP9etPLk+xpo0UysNgK0XbhGtq6PAG3zTpHrxRtAjbhDRxnEGGcm2d50o7wpdYVnzdZgBax5nxFLnm8bAAAAAElFTkSuQmCC">
+        <script>function markdown(n){var r=/\\([\\\|`*_{}\[\]()#+\-~])/g,t=/\n *&gt; *([^]*?)(?=(\n|$){2})/g,e=/\n( *)(?:[*\-+]|((\d+)|([a-z])|[A-Z])[.)]) +([^]*?)(?=(\n|$){2})/g,u=/(^|[^A-Za-z\d\\])(([*_])|(~)|(\^)|(--)|(\+\+)|`)(\2?)([^<]*?)\2\8(?!\2)(?=\W|_|$)/g,c=/^.*\n( *\|( *\:?-+\:?-+\:? *\|)* *\n|)/,l=/.*\n/g,a=/\||(.*?[^\\])\|/g;function o(r,t){n=n.replace(r,t)}function g(n,r){return"<"+n+">"+r+"</"+n+">"}function i(n){return n.replace(u,(function(n,r,t,e,u,c,l,a,o,f){return r+g(e?o?"strong":"em":u?o?"s":"sub":c?"sup":l?"small":a?"big":"code",i(f))}))}function f(n){return n.replace(r,"$1")}var p=[],s=0;return n="\n"+n+"\n",o(/</g,"&lt;"),o(/>/g,"&gt;"),o(/\t|\r|\uf8ff/g,"  "),n=function n(r){return r.replace(t,(function(r,t){return g("blockquote",n(i(t.replace(/^ *&gt; */gm,""))))}))}(n),o(/^([*\-=_] *){3,}$/gm,"<hr/>"),n=function n(r){return r.replace(e,(function(r,t,e,u,c,l){var a=g("li",i(l.split(RegExp("\n ?"+t+"(?:(?:\\d+|[a-zA-Z])[.)]|[*\\-+]) +","g")).map(n).join("</li><li>")));return"\n"+(e?'<ol start="'+(u?e+'">':parseInt(e,36)-9+'" style="list-style-type:'+(c?"low":"upp")+'er-alpha">')+a+"</ol>":g("ul",a))}))}(n),o(/<\/(ol|ul)>\n\n<\1>/g,""),o(/\n((```|~~~).*\n?([^]*?)\n?\2|((    .*?\n)+))/g,(function(n,r,t,e,u){return p[--s]=g("pre",g("code",e||u.replace(/^    /gm,""))),s+""})),o(/((!?)\[(.*?)\]\((.*?)( ".*")?\)|\\([\\`*_{}\[\]()#+\-.!~]))/g,(function(n,r,t,e,u,c,l){return p[--s]=u?t?'<img src="'+u+'" alt="'+e+'"/>':'<a href="'+u+'">'+f(i(e))+"</a>":l,s+""})),o(/\n(( *\|.*?\| *\n)+)/g,(function(n,r){var t=r.match(c)[1];return"\n"+g("table",r.replace(l,(function(n,r){return n==t?"":g("tr",n.replace(a,(function(n,e,u){return u?g(t&&!r?"th":"td",f(i(e||""))):""})))})))})),o(/(?=^|>|\n)([>\s]*?)(#{1,6}) (.*?)( #*)? *(?=\n|$)/g,(function(n,r,t,e){return r+g("h"+t.length,f(i(e)))})),o(/(?=^|>|\n)\s*\n+([^<]+?)\n+\s*(?=\n|<|$)/g,(function(n,r){return g("p",f(i(r)))})),o(/-\d+\uf8ff/g,(function(n){return p[parseInt(n)]})),n.trim()}</script>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-size: 11px;
+                font-family: Tahoma, "Inter Display", "Segoe UI", sans-serif;
+            }
+
+            button {
+                font-size: 11px;
+                font-family: Tahoma, "Inter Display", "Segoe UI", sans-serif;
+            }
+
+            code, pre {
+                background-color: #b0bec5a3;
+            }
+
+            pre>code {
+                background-color: unset;
+            }
+
+            pre {
+                overflow-x: scroll;
+                padding: 0.5em 0;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            #myTextarea {
+                border-radius: 0;
+                outline: 0;
+                margin: 2px 0;
+                padding: 8px 4px;
+                flex: 1;
+                /* Allow textarea to grow and fill remaining space */
+                width: 100%;
+                resize: none;
+                font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+                font-size: 7.5pt;
+                line-height: 1.1em;
+                border: 0;
+                border-left: 12px solid #37474f38;
+                border-top: 1px solid #37474f63;
+                border-bottom: 1px solid #37474f63;
+                box-sizing: border-box;
+                color: #757575;
+            }
+
+            #myTextarea:focus, #myTextarea:active {
+                border-radius: 0;
+                outline: 0;
+                border-top: 1px solid #37474f;
+                border-bottom: 1px solid #37474f;
+                color: #3E2723;
+            }
+
+            .navBar {
+                flex: 0 0 auto;
+                /* Do not grow or shrink */
+                padding: 2px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .navBar span:first-child {
+                margin-left: 4px;
+                margin-right: 4px;
+            }
+
+            .navBar span:last-child {
+                margin-left: 4px;
+                margin-right: 4px;
+            }
+
+            #pageNumber {
+                margin-left: 4px;
+            }
+
+            .navBar span {
+                display: flex;
+            }
+
+            .navBar input[type="text"] {
+                min-width: 0;
+                margin: 0;
+                padding: 4px;
+                flex: 1;
+                resize: none;
+                font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+                font-size: 11px;
+                line-height: 1.1em;
+            }
+
+            button {
+                border-radius: 2px;
+                outline: 1px solid #90A4AE;
+                border: #0000 solid 1px;
+                background-color: #EFEBE9;
+                box-sizing: border-box;
+            }
+
+            button:hover {
+                outline: 1px solid #B0BEC5;
+                color: #3E2723;
+                cursor: pointer;
+                z-index: 999;
+            }
+
+            button:focus-visible {
+                outline: 2px solid #37474F;
+                outline-offset: -1px;
+                color: initial;
+                z-index: 999;
+            }
+
+            button:active {
+                outline: 1px solid #37474F;
+                color: initial;
+                background-color: #BCAAA4;
+                z-index: 999;
+            }
+
+            .navBar button {
+                padding: 4px 6px;
+                line-height: 1.1em;
+                box-sizing: border-box;
+                margin: 0;
+                border-radius: 2px;
+            }
+
+            .navBar button:first-child {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .navBar button:last-child {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .buttonPanel {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .buttonPanel button {
+                margin: 2px 2px;
+                padding: 3px;
+            }
+
+            dialog {
+                min-width: 193px;
+                box-sizing: border-box;
+                border-radius: 4px;
+                padding: 8px;
+                padding-top: 16px;
+                outline: 0;
+                border: 0;
+                box-shadow: 0px 10px 22px -3px rgba(0, 0, 0, 0.33);
+                /* max-height: 80vh; */
+            }
+
+            ::backdrop {
+                background: #efebe9;
+                opacity: 0.75;
+            }
+
+            dialog h1, dialog h2, dialog h3, dialog h4 {
+                margin-top: 0;
+                margin-bottom: 0.2em;
+            }
+
+            .dialog-wrapper {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .dialogContent {
+                overflow-y: scroll;
+                flex: 1 1 auto;
+                max-height: 60vh;
+            }
+
+            .dialogContent blockquote {
+                border-left: 4px solid #90a4ae;
+                background-color: #b0bec5a3;
+                margin: 0;
+                padding: 0.75em 0 0.75em 2em;
+            }
+
+            .dialog-buttons {
+                display: flex;
+                justify-content: space-around;
+                flex-shrink: 0;
+            }
+
+            .dialog-buttons button {
+                padding: 3px 0;
+                /* min-width: 48px; */
+                margin: 0 2px;
+                width: 100%;
+            }
+
+            .dialog-buttons button:only-child {
+                width: 100%;
+                margin: 0;
+            }
+
+            .dialog-buttons button[autofocus], .dialog-buttons button[default] {
+                background-color: #b0bec5;
+                font-weight: bold;
+            }
+
+            #alert-content, #confirm-content, #input-content, #number-content {
+                box-sizing: border-box;
+                margin-bottom: 8px;
+            }
+
+            #dialogInput, #dialogInputNum {
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 8px;
+                font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+                font-size: 11px;
+                line-height: 1.1em;
+            }
+
+            .dialogContent ul, .dialogContent ol li {
+                padding: 0;
+                padding-left: 2em;
+                margin: 0;
+            }
+
+            input[type="file" i] {
+                font-size: 11px;
+                width: 14em;
+            }
+
+            .topDisplay {
+                display: flex;
+                justify-content: flex-end;
+                margin: 0 0 4px;
+            }
+
+            .topDisplay button {
+                margin: 0 2px 0;
+            }
+
+            .content {
+                /* Do not grow or shrink */
+                flex: 0 0 auto;
+                padding: 2px 8px;
+                max-height: 20px;
+                overflow: hidden;
+            }
+
+            .content.expanded {
+                max-height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <dialog id="alert-dialog" closedby="any">
+            <div class="dialog-wrapper">
+                <div id="alert-content" class="dialogContent">Custom Alert dialog</div>
+                <div class="dialog-buttons">
+                    <button id="alert-close" autofocus>Primary</button>
+                </div>
+            </div>
+        </dialog>
+        <dialog id="confirm-dialog">
+            <div id="confirm-content" class="dialogContent">Custom Alert dialog</div>
+            <div class="dialog-buttons">
+                <button id="confirm-primary" autofocus>Primary</button>
+                <button id="confirm-secondary">Secondary</button>
+            </div>
+        </dialog>
+        <dialog id="input-dialog">
+            <form id="input-dialog-form" onsubmit="event.preventDefault();">
+                <div id="input-content" class="dialogContent">Custom Alert dialog</div>
+                <input type="text" name="dialogInput" id="dialogInput" autofocus>
+                <div class="dialog-buttons">
+                    <button id="input-primary" default>Primary</button>
+                    <button id="input-secondary">Secondary</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="number-dialog">
+            <form id="number-dialog-form" onsubmit="event.preventDefault();">
+                <div id="number-content" class="dialogContent">Custom Alert dialog</div>
+                <input type="number" name="dialogInput" id="dialogInputNum" min="1" autofocus>
+                <div class="dialog-buttons">
+                    <button id="number-primary" default>Primary</button>
+                    <button id="number-secondary">Secondary</button>
+                </div>
+            </form>
+        </dialog>
+        <div class="container">
+            <div class="navBar">
+                <span>
+                    <button id="previousButton">Prev</button>
+                    <button id="nextButton">Next</button>
+                </span>
+                <input type="text" id="textTitle" name="textTitle" maxlength="24">
+                <span id="pageNumber">1/1</span>
+                <span>
+                    <button id="gotoButton">Go to...</button>
+                    <button id="newButton">New</button>
+                </span>
+            </div>
+            <textarea contenteditable="true" id="myTextarea" autofocus wrap="soft"></textarea>
+            <div class="content" id="toolPane">
+                <div class="topDisplay">
+                    <button id="insertTimestampButton"><b>F5</b>Timestamp</button>
+                    <button id="fnE"><u><b>V</b></u>iew HTML</button>
+                    <button id="aboutPanel">Help</button>
+                    <button id="showPanel">≡ Tool Panel</button>
+                </div>
+                <div class="buttonPanel">
+                    <button id="viewWrapButton">Word Wrap: </button>
+                    <button id="saveButton">Download this note</button>
+                    <button id="exportButton"><b>F12</b>Backup all notes</button>
+                    <button id="deleteButton"><b>CTRL+D</b>Delete note</button>
+                    <div class="panelArea">
+                        Import Notes: <input type="file" id="importField" accept=".json, .txt">
+                    </div>
+                    <button id="insertButton">Insert sample text
+                    </button>
+                    •
+                    <button id="fnA">Function A</button>
+                    <button id="fnB">Function B</button>
+                    <button id="fnC">Function C</button>
+                    <button id="fnD">Function D</button>
+                </div>
+                Data will survive after refresh
+            </div>
+        </div>
+        <script>
+            const showAlrt = document.getElementById('aboutPanel');
+            const fnAButton = document.getElementById("fnA");
+            const fnBButton = document.getElementById("fnB");
+            const fnCButton = document.getElementById("fnC");
+            const fnDButton = document.getElementById("fnD");
+            const fnEButton = document.getElementById("fnE");
+            const helpAbout = `
+            <h3>Notebox</h3>
+            <p>Notepad mini software that supports multiple pages.</p>
+            <h3>Help</h3>
+            <p>
+            <ul><li>Move the cursor one character at a time using arrow keys</li>
+            <li>Hold <b>CTRL</b> while pressing the arrow keys to move the cursor one word at a time</li>
+            <li>Hold <b>SHIFT</b> while pressing the arrow keys to select text one character at a time</li>
+            <li>Press the <b>HOME</b> and <b>END</b> keys to go to the start or the end of the line respectively</li>
+            <li>The <b>Go to...</b> button let's you quickly navigate between pages</li>
+            <li><b>F1 Key</b> is the shortcut for Go To...</li>
+            <li><b>F2 Key</b> renames the note, press <b>Enter</b> key to quickly go back to the notebox</li>
+            <li><b>F3 and F4 Keys</b> let's you quickly navigate to the next or previous pages</li>
+            <li><b>F5 Key</b> insert timestamp, press the <b>CTRL + R</b> keys to reload the page</li>
+            <li>Press <b>ALT + V</b> to view formatted markdown text</li>
+            <!-- <li></li> -->
+            </ul>
+            </p>
+            <h3>Credits</h3>
+            <p>Markdown to HTML implementation powered by <a href='https://github.com/adamvleggett/drawdown'>drawdown</a></p>
+            `;
+
+            // initialize UI buttons
+            const textarea = document.getElementById('myTextarea');
+            const titletex = document.getElementById('textTitle');
+            const pageArea = document.getElementById('pageNumber');
+            const prevButt = document.getElementById('previousButton');
+            const nextButt = document.getElementById('nextButton');
+            const newNotes = document.getElementById('newButton');
+            const delNotes = document.getElementById('deleteButton');
+            const gotoButt = document.getElementById('gotoButton');
+            const saveButt = document.getElementById('saveButton');
+            const expoButt = document.getElementById('exportButton');
+            const showImport = document.getElementById('importButton');
+            const importField = document.getElementById('importField');
+            const timeButt = document.getElementById('insertTimestampButton');
+            const wrapButt = document.getElementById('viewWrapButton');
+            const showPane = document.getElementById('showPanel');
+            const toolPane = document.getElementById('toolPane');
+
+            // initialize page number and note variable
+            var notePageNum;
+            var loadedNotes;
+            var isWrapOn;
+            // launch the function after page load
+            window.addEventListener('load', pagePrep);
+
+            function showAlert(message, primaryButtonText='OK') {
+                return new Promise( (resolve) => {
+                    const alertWin = document.getElementById('alert-dialog');
+                    const alertTxt = document.getElementById('alert-content');
+                    const alertExt = document.getElementById('alert-close');
+
+                    alertTxt.innerHTML = message;
+                    alertExt.innerText = primaryButtonText;
+                    alertWin.showModal();
+
+                    const handleClose = () => {
+                        alertWin.close();
+                        alertExt.removeEventListener('click', handleClose);
+                        resolve();
+                    }
+
+                    alertExt.addEventListener('click', handleClose)
+                }
+                );
+            }
+
+            function showConfirm(message, primaryButtonText='OK', secondaryButtonText='Cancel') {
+                return new Promise( (resolve) => {
+                    const confirmDialog = document.getElementById("confirm-dialog");
+                    const confirmContent = document.getElementById("confirm-content");
+                    const confirmPrimaryButton = document.getElementById("confirm-primary");
+                    const confirmSecondaryButton = document.getElementById("confirm-secondary");
+
+                    confirmContent.innerHTML = message;
+                    confirmPrimaryButton.innerText = primaryButtonText;
+                    confirmSecondaryButton.innerText = secondaryButtonText;
+
+                    confirmDialog.showModal();
+
+                    confirmPrimaryButton.onclick = () => {
+                        confirmDialog.close();
+                        resolve(true);
+                    }
+                    confirmSecondaryButton.onclick = () => {
+                        confirmDialog.close();
+                        resolve(false);
+                    }
+                }
+                );
+            }
+
+            function showInput(message, primaryButtonText='OK', secondaryButtonText='Cancel') {
+                return new Promise( (resolve) => {
+                    const inputDialog = document.getElementById("input-dialog");
+                    const inputContent = document.getElementById("input-content");
+                    const dialogInput = document.getElementById("dialogInput");
+                    const inputPrimaryButton = document.getElementById("input-primary");
+                    const inputSecondaryButton = document.getElementById("input-secondary");
+
+                    inputContent.innerHTML = message;
+                    inputPrimaryButton.innerText = primaryButtonText;
+                    inputSecondaryButton.innerText = secondaryButtonText;
+                    dialogInput.value = "";
+
+                    inputDialog.showModal();
+
+                    inputPrimaryButton.onclick = () => {
+                        inputDialog.close();
+                        resolve(dialogInput.value);
+                    }
+                    inputSecondaryButton.onclick = () => {
+                        inputDialog.close();
+                        resolve(false);
+                    }
+                }
+                );
+            }
+
+            function showNumInput(message, primaryButtonText='OK', secondaryButtonText='Cancel', maxNum=1000, boxValue="") {
+                return new Promise( (resolve) => {
+                    const inputDialog = document.getElementById("number-dialog");
+                    const inputContent = document.getElementById("number-content");
+                    const dialogInput = document.getElementById("dialogInputNum");
+                    const inputPrimaryButton = document.getElementById("number-primary");
+                    const inputSecondaryButton = document.getElementById("number-secondary");
+
+                    inputContent.innerHTML = message;
+                    inputPrimaryButton.innerText = primaryButtonText;
+                    inputSecondaryButton.innerText = secondaryButtonText;
+                    dialogInput.value = boxValue;
+                    dialogInput.select();
+                    dialogInput.setAttribute("max", maxNum);
+
+                    inputDialog.showModal();
+
+                    inputPrimaryButton.onclick = () => {
+                        inputDialog.close();
+                        resolve(dialogInput.value);
+                    }
+                    inputSecondaryButton.onclick = () => {
+                        inputDialog.close();
+                        resolve(false);
+                    }
+                }
+                );
+            }
+
+            const initialData = {
+                "last view": 0,
+                "pages": [{
+                    "title": "",
+                    "content": ""
+                }]
+            };
+
+            const initialDataB = {
+                "last view": 0,
+                "pages": [{
+                    "title": "",
+                    "content": ""
+                }, {
+                    "title": "",
+                    "content": ""
+                }, {
+                    "title": "",
+                    "content": ""
+                }]
+            };
+
+            // save text to page in localStorage
+            function autoSaveText(index) {
+                // Ensure loadedNotes is defined before trying to access its properties
+                if (loadedNotes && loadedNotes.pages && loadedNotes.pages[index]) {
+                    loadedNotes["pages"][index].content = textarea.value;
+                    loadedNotes["pages"][index].title = titletex.value;
+                    localStorage.setItem('noteData', JSON.stringify(loadedNotes));
+                } else {
+                    console.error("Error: loadedNotes or its structure is undefined when trying to auto-save.");
+                }
+            }
+            // from localStorage, get text from specified page then display
+            function pageLoadText(index) {
+                console.log("hi from pageLoadText ", index, loadedNotes["last view"]);
+                console.dir(loadedNotes);
+                pageArea.textContent = (index + 1) + "/" + loadedNotes["pages"].length;
+                titletex.value = loadedNotes["pages"][index].title;
+                textarea.value = loadedNotes["pages"][index].content;
+            }
+            // add new page to the end
+            function newPage(titleF="", contentF="") {
+                const lastPage = loadedNotes["pages"].length
+                console.log("lastPage before .push " + lastPage);
+
+                loadedNotes["pages"].push({
+                    "title": titleF,
+                    "content": contentF
+                });
+                localStorage.setItem('noteData', JSON.stringify(loadedNotes));
+
+                console.log("lastPage after .push " + lastPage);
+                console.log(".length after .push " + loadedNotes["pages"].length);
+
+                setPageNum(lastPage);
+                pageLoadText(lastPage);
+                textarea.focus();
+            }
+
+            // delete page and it's contents (cannot undo)
+            async function deletePage() {
+                const doDelete = await showConfirm("<h3>Delete Note?</h3> This cannot be undone", "Delete");
+
+                if (doDelete === "" || doDelete === false) {
+                    // note not deleted
+                    console.log('note not deleted');
+                } else {
+                    loadedNotes["pages"].splice(notePageNum, 1);
+
+                    // no pages left, create a new one
+                    if (loadedNotes["pages"].length === 0) {
+                        console.log("No notes left, creating new one");
+                        newPage();
+                        return;
+                    }
+
+                    // there are still pages left
+                    // might need more work on this one
+                    if (notePageNum >= loadedNotes["pages"].length) {
+                        notePageNum = loadedNotes["pages"].length - 1;
+                    } else if (notePageNum === 0) {
+                        // keep the index if its already 0, keeps it from going -1
+                        notePageNum = 0;
+                    } else {
+                        notePageNum--;
+                    }
+
+                    pageLoadText(notePageNum);
+                    setPageNum(notePageNum);
+                }
+            }
+
+            // save all pages as JSON file
+            function saveAll() {
+                // generate filename
+                const currentDate = new Date();
+                const formattedDate = currentDate.toISOString().split('T')[0];
+
+                //all of javascript content in plain text
+                const content = localStorage.getItem('noteData');
+
+                const safeFilename = formattedDate;
+
+                // Create a Blob from the text
+                const blob = new Blob([content],{
+                    type: 'text/plain'
+                });
+
+                // Create a link element, fill the href with contents, download using filename
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `noteware_${safeFilename}.json`;
+
+                // click the link to download
+                link.click();
+
+                // Clean up by revoking the object URL
+                URL.revokeObjectURL(link.href);
+            }
+
+            // read uploaded file and append to/replace the loaded notes
+            async function loadAll() {
+                function clearFileInputField() {
+                    importField.value = "";
+                }
+
+                const file = importField.files[0];
+                const fileVerify = "verify if text content is readable/compatible";
+                const newContent = "read the contents fileContent, convert it to JSON";
+
+                let askAppend;
+
+                switch (file.type) {
+                case "text/plain":
+                    askAppend = "A";
+                    console.log(file.type)
+                    break
+                case "application/json":
+                    askAppend = await showNumInput(`<h3>Append or Replace Note?</h3> This cannot be undone <ul>
+                                                    <li><b>1:</b> Append</li>
+                                                    <li><b>2:</b> Replace</li>
+                                                    <li><b>Other/Blank: </b> Cancel</li>
+                                                    </ul>`);
+                    break
+                default:
+                    console.log("hello from invalid: " + file.type)
+                    await showAlert("File Invalid");
+                    await clearFileInputField();
+                }
+
+                switch (askAppend) {
+                case "A":
+                    const reader = new FileReader();
+
+                    reader.onload = async function(e) {
+                        const noteFileContents = e.target.result;
+                        const noteFileTitle = file.name;
+                        await showAlert("Appending " + file.name + ": " + noteFileContents);
+                        await newPage(noteFileTitle, noteFileContents);
+                        await clearFileInputField();
+                    }
+                    reader.readAsText(file);
+                    break;
+                case "1":
+                    //Append
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = async function(e) {
+                            const noteFileContents = e.target.result;
+                            const noteFileJSON = JSON.parse(noteFileContents);
+                            await showAlert("Appending " + file.name + ": " + noteFileContents);
+
+                            const lastPage = loadedNotes["last view"];
+                            loadedNotes["pages"].push(...noteFileJSON["pages"]);
+
+                            setPageNum(lastPage);
+                            pageLoadText(lastPage);
+
+                            await clearFileInputField();
+                        }
+                        reader.readAsText(file);
+                    }
+                    break;
+                case "2":
+                    //Replace
+                    if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = async function(e) {
+                            const noteFileContents = e.target.result
+                            await showAlert(file.name + " will Replace: " + noteFileContents);
+                            // delete everything from loadedNotes
+                            // plop newContent to loadedNotes
+                            // save to localStorage
+                            // reload the notes, note index may be changed
+                            await clearFileInputField();
+                        }
+                        reader.readAsText(file);
+                    }
+                    break;
+                default:
+                    await showAlert("File Import Cancelled");
+                    await clearFileInputField();
+                    // cancel
+                }
+            }
+
+            // go to the next page, checks the end too
+            function goNext() {
+                const itemCount = loadedNotes["pages"].length;
+
+                if ((notePageNum + 1) !== itemCount) {
+                    notePageNum++;
+                    pageLoadText(notePageNum);
+                    setPageNum(notePageNum);
+                }
+
+            }
+            // go to the prev page
+            function goPrev() {
+                if (notePageNum > 0) {
+                    notePageNum--
+                    pageLoadText(notePageNum);
+                    setPageNum(notePageNum);
+                }
+            }
+
+            // go to specified page
+            async function goTo() {
+                const pageList = `<ul>${loadedNotes.pages.map( (page, index) => `<li><b>${index + 1}:</b> ${page.title}</li>`).join('')}</ul>`;
+                const result = await showNumInput("<h3>All Notes</h3>" + pageList, undefined, undefined, loadedNotes["pages"].length, notePageNum + 1) - 1;
+                //minus 1 to re-adjust to 0-based index
+
+                // result is auto adjusted to minus 1
+                if (result === "" || result === false || result === -1) {
+                    console.log("Hello from if! " + result);
+                    console.log("Selection might be cancelled... " + result);
+                    // nothing
+                } else {
+                    console.log("Hello from else! " + result);
+                    try {
+                        if (typeof result !== 'number') {
+                            throw new Error("That's not a number!")
+                        } else if (result < 0 || result + 1 > loadedNotes["pages"].length) {
+                            throw new Error("That number is out of range!");
+                        } else {
+                            pageLoadText(result);
+                            setPageNum(result);
+                        }
+                    } catch (error) {
+                        showAlert("Hey! " + error.message);
+                    }
+                }
+            }
+
+            // set the page number
+            function setPageNum(index) {
+                notePageNum = index;
+                loadedNotes["last view"] = notePageNum;
+                localStorage.setItem('noteData', JSON.stringify(loadedNotes));
+            }
+
+            // things to do after page loaded
+            //> is localStorage not empty?
+            //> not empty - load from localStorage
+            //> empty - get initialData, save to localStorage, load from localStorage
+            function pagePrep() {
+                const prepData = JSON.parse(localStorage.getItem('noteData'));
+
+                // if yes empty
+                if (!prepData) {
+                    localStorage.setItem('noteData', JSON.stringify(initialData));
+                    // set initialData to localStore
+                    loadedNotes = JSON.parse(localStorage.getItem('noteData'));
+                    // then get that data
+                    notePageNum = loadedNotes["last view"];
+                    pageLoadText(notePageNum);
+                } else {
+                    // since it already exist, get data from localStorage
+                    loadedNotes = JSON.parse(localStorage.getItem('noteData'));
+                    notePageNum = prepData["last view"];
+                    pageLoadText(notePageNum);
+                }
+
+                const wrapSave = localStorage.getItem('noteWrap');
+                if (!wrapSave) {
+                    localStorage.setItem('noteWrap', 'soft');
+                    textarea.wrap = localStorage.getItem('noteWrap');
+                    switch (textarea.wrap) {
+                    case "soft":
+                        wrapButt.textContent = "Word Wrap: ON";
+                        break;
+                    case "off":
+                        wrapButt.textContent = "Word Wrap: OFF";
+                        break;
+                    default:
+                        wrapButt.textContent = "Word Wrap: ON";
+                    }
+                } else {
+                    textarea.wrap = localStorage.getItem('noteWrap');
+                    switch (textarea.wrap) {
+                    case "soft":
+                        wrapButt.textContent = "Word Wrap: ON";
+                        break;
+                    case "off":
+                        wrapButt.textContent = "Word Wrap: OFF";
+                        break;
+                    default:
+                        wrapButt.textContent = "Word Wrap: ON";
+                    }
+                }
+
+                if (localStorage.getItem('toolPaneExtended') === 'true') {
+                    toolPane.classList.add('expanded');
+                }
+
+                showPane.addEventListener('click', () => {
+                    toolPane.classList.toggle('expanded');
+
+                    const isExpanded = toolPane.classList.contains('expanded');
+                    localStorage.setItem('toolPaneExtended', isExpanded);
+                }
+                )
+
+                // Save content to sessionStorage on input
+                // Everytime you type, Save textbox content to localStorage
+                titletex.addEventListener('input', () => autoSaveText(notePageNum));
+                textarea.addEventListener('input', () => autoSaveText(notePageNum));
+
+                // add event listeners for buttons
+                prevButt.addEventListener('click', () => goPrev());
+                nextButt.addEventListener('click', () => goNext());
+                newNotes.addEventListener('click', () => newPage());
+                delNotes.addEventListener('click', () => deletePage());
+                gotoButt.addEventListener('click', () => goTo());
+                saveButt.addEventListener('click', () => saveToFile());
+                expoButt.addEventListener('click', () => saveAll());
+                importField.addEventListener('change', () => loadAll());
+
+                // modal testing
+                // alert modal
+                showAlrt.addEventListener('click', () => showAlert(helpAbout));
+
+                // yes/no modal
+                fnAButton.addEventListener('click', () => {
+                    showConfirm("True or False", "True", "False").then(result => {
+                        showAlert("You selected " + result, "Wow!");
+                    }
+                    );
+                }
+                );
+
+                // user input modal
+                fnBButton.addEventListener('click', async () => {
+                    const result = await showInput("<h3>Where</h3> to go...", "Go!");
+
+                    if (result === "") {
+                        showAlert("You stood still...");
+                    } else if (result === false) {// nothing
+                    } else {
+                        showAlert("You went to " + result, "Wow!");
+                    }
+                }
+                );
+
+                fnCButton.addEventListener('click', async () => {
+                    const result = await showInput("<h3>Special</h3> Place Selector <ul><li>Japan</li><li>China</li><li>Thailand</li></ul>", "Go!");
+
+                    switch (result) {
+                    case "Japan":
+                        showAlert("こんにちは!!");
+                        break;
+                    case "China":
+                        showAlert("你好!!");
+                        break;
+                    case "Thailand":
+                        showAlert("สวัสดี!!");
+                        break;
+                    case "":
+                        showAlert("You stood still...");
+                        break;
+                    case false:
+                        showAlert("You stood still...");
+                        break;
+                    default:
+                        showAlert("You went to " + result, "Wow!");
+                    }
+                }
+                );
+
+                timeButt.addEventListener('click', () => insertTimeStamp());
+                wrapButt.addEventListener('click', () => wordWrap());
+                fnDButton.addEventListener('click', async () => {
+                    await showAlert("Hello...", "Hi!");
+                    await showAlert("This is a demonstration of chaining Alert Dialogues", "Ooh!");
+                    await showAlert("As you can see, it happens step by step", "Oh yeah");
+                    await showAlert("That is because its coded asynchronously");
+                    await showAlert("Where some part of code waits while other code process along");
+                    await showAlert("This is nifty as it does not halt all of the code while this is running");
+                    await showAlert("So yeah! Hope I was able to demonstrate you the power of Asynchronous Code. See ya!", "Bye!")
+                }
+                )
+
+                // show markdown
+                fnEButton.addEventListener('click', async () => {
+                    await showAlert(markdown(textarea.value));
+                });
+            }
+
+            // save current note to file
+            function saveToFile() {
+                // Get the text from the textarea
+                const title = titletex.value;
+                const content = textarea.value;
+
+                // Get the first 24 characters for the filename
+                const filename = title.substring(0, 24).replace(/[^a-zA-Z0-9\s-]/g, '_') || 'myTextFile.txt';
+                //^.replace(/[^a-zA-Z0-9]/g, '_')
+                // Ensure the filename does not exceed 24 characters
+                const safeFilename = filename.length > 24 ? filename.substring(0, 24) : filename;
+
+                // Create a Blob from the text
+                const blob = new Blob([content],{
+                    type: 'text/plain'
+                });
+
+                // Create a link element
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${safeFilename}.txt`;
+                // Use the derived filename with .txt extension
+
+                // Programmatically click the link to trigger the download
+                link.click();
+
+                // Clean up by revoking the object URL
+                URL.revokeObjectURL(link.href);
+            }
+
+            // Add event listener for keyboard shortcut (Ctrl + Shift + S)
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && event.shiftKey && !event.altKey && event.code === 'KeyS') {
+                    event.preventDefault();
+                    console.log("hi, no you cannot press the save shortcut");
+                }
+            });
+
+            // disable save dialog (CTRL + S)
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'KeyS') {
+                    event.preventDefault();
+                    console.log("Hi, no you cannot press the save shortcut");
+                }
+            });
+
+            // Delete Shortcut (CTRL + D)
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'KeyD') {
+                    event.preventDefault();
+                    deletePage();
+                }
+            });
+
+            // Go to Shortcut (F1)
+            document.addEventListener('keydown', function(event) {
+                if (!event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'F1') {
+                    event.preventDefault();
+                    gotoButt.click();
+                }
+            });
+
+            // From notebox to title field (F2)
+            document.addEventListener('keydown', function(event) {
+                if (isElementInFocus(textarea) && !event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'F2') {
+                    event.preventDefault();
+                    titletex.focus();
+                    titletex.select();
+                }
+            });
+
+            // From title field to notebox (Enter)
+            document.addEventListener('keydown', function(event) {
+                if (isElementInFocus(titletex) && !event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'Enter') {
+                    event.preventDefault();
+                    textarea.focus();
+                }
+            });
+
+            // Next/Prev (F3/F4)
+            document.addEventListener('keydown', function(event) {
+                if (!event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'F4') {
+                    event.preventDefault();
+                    nextButt.click();
+                    textarea.focus();
+                }
+                if (!event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'F3') {
+                    event.preventDefault();
+                    prevButt.click();
+                    textarea.focus();
+                }
+            });
+
+            // Insert Timestamp (F5)
+            document.addEventListener('keydown', function(event) {
+                if (!event.ctrlKey && !event.shiftKey && !event.altKey && event.code === 'F5') {
+                    event.preventDefault();
+                    insertTimeStamp();
+                }
+            });
+
+            // View HTML (alt + V)
+            document.addEventListener('keydown', function(event) {
+                if (!event.ctrlKey && !event.shiftKey && event.altKey && event.code === 'KeyV') {
+                    event.preventDefault();
+                    showAlert(markdown(textarea.value));
+                }
+            });
+
+            // additional functions
+
+            function wordWrap() {
+                console.log("textarea wrap? " + textarea.wrap);
+                //change textarea word wrap back and forth
+                switch (textarea.wrap) {
+                case "soft":
+                    textarea.wrap = "off";
+                    console.log("now off");
+                    localStorage.setItem('noteWrap', 'off');
+                    wrapButt.textContent = "Word Wrap: OFF";
+                    break;
+                case "off":
+                    textarea.wrap = "soft";
+                    console.log("now on");
+                    localStorage.setItem('noteWrap', 'soft');
+                    wrapButt.textContent = "Word Wrap: ON";
+                    break;
+                default:
+                    textarea.wrap = "soft";
+                    console.log("now soft");
+                    localStorage.setItem('noteWrap', 'soft');
+                    wrapButt.textContent = "Word Wrap: ON";
+                }
+            }
+
+            // helper function, checks if certain element is in focus
+            function isElementInFocus(element) {
+                return document.activeElement === element;
+            }
+
+            // inserts premade text
+            function insertText() {
+                const textarea = document.getElementById('myTextarea');
+                textarea.focus();
+                const premadeText = "\nThis is the premade text.\nIt can contain new lines.\nEnjoy!\n";
+
+                document.execCommand("insertText", false, premadeText);
+            }
+
+            function insertTimeStamp() {
+                function getFormattedTimestamp() {
+                    const date = new Date();
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    const seconds = String(date.getSeconds()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    // Months are 0-indexed
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const year = date.getFullYear();
+
+                    return `${hours}:${minutes}:${seconds} ${month}/${day}/${year}`;
+                }
+
+                const textarea = document.getElementById('myTextarea');
+                textarea.focus();
+                const premadeText = getFormattedTimestamp();
+
+                document.execCommand("insertText", false, premadeText);
+            }
+
+            // Attach the named function to the button's click event
+            document.getElementById('insertButton').addEventListener('click', insertText);
+        </script>
+    </body>
+</html>
