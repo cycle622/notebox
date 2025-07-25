@@ -1,5 +1,5 @@
 # notebox
-Simple Notepad app with Pages. The pagination is inspired by the *Note Pad* app on Macintosh 7.0. Supports previewing Markdown in HTML.
+Simple Notepad app with Pages. The pagination is inspired by the *Note Pad* app on Macintosh 7.0. Supports previewing Markdown in HTML. Try it out at https://cycle622.github.io/notebox/
 
 ## Features [TODO]
 + Persistent - Data stays in the browser, and only in your browser
